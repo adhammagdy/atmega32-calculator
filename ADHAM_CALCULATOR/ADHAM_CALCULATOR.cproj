@@ -154,7 +154,13 @@
     <Compile Include="Applications\Calculator\stringparser.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Applications\Calculator\stringparser.c.old">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Applications\Calculator\stringparser.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Applications\Calculator\stringparser.h.old">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\inc\keypad.h">

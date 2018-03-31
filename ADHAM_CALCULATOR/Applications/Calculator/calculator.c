@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdint.h>
 #include "keypad.h"
 #include "LCD.h"
 #include "queue.h"
@@ -18,7 +19,7 @@ void StartCalculator()
 	vKeypadInit(); //Initialize Keypad driver
 	
 	char keypad_input=0; //Storage for keypad characters
-	unsigned char index=0; //Current character index in the input buffer
+	uint8_t index=0; //Current character index in the input buffer
 	queue_t input_buffer; //Input buffer for keypad and LCD as a queue
 	vQueueInit(&input_buffer); //Clear input buffer
 	string_parser_output_t *parser_output = NULL; //Pointer to take the return of the string parser as a struct
@@ -69,24 +70,24 @@ void StartCalculator()
 					//Parse the input data and get the operands, operation, and errors in a struct
 					vStringparserParse(string_parser_input, parser_output);
 					
- 					switch(parser_output->err)
- 					{
- 						case CALC_NO_ERR: //If the string parser returns no error, start calculating and display the result, then clean up for new input
- 							//calculate
- 							//convert
- 							//display
-							//clean up
-							//vLCDSendString(itoa(parser_output->num1,lolo,10));
-							//vLCDGotoXY(0,0);
- 							break;
- 						case CALC_SYNTAX_ERR: //Display syntax error if the string parser says so, and clean up for new input
- 							vLCDSendString("Syntax Error");
- 							vQueueInit(&input_buffer);
- 							break;
- 						case CALC_MATH_ERR: //Display math error if the string parser says so, and clean up for new input
- 							vLCDSendString("Math Error");
-							 vQueueInit(&input_buffer);
- 							break;
+//  					switch(parser_output->err)
+//  					{
+//  						case CALC_NO_ERR: //If the string parser returns no error, start calculating and display the result, then clean up for new input
+//  							//calculate
+//  							//convert
+//  							//display
+// 							//clean up
+// 							//vLCDSendString(itoa(parser_output->num1,lolo,10));
+// 							//vLCDGotoXY(0,0);
+//  							break;
+//  						case CALC_SYNTAX_ERR: //Display syntax error if the string parser says so, and clean up for new input
+//  							vLCDSendString("Syntax Error");
+//  							vQueueInit(&input_buffer);
+//  							break;
+//  						case CALC_MATH_ERR: //Display math error if the string parser says so, and clean up for new input
+//  							vLCDSendString("Math Error");
+// 							 vQueueInit(&input_buffer);
+//  							break;
  					}
  				}
 			}
