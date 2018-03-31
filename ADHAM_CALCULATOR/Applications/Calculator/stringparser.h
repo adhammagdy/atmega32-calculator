@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 //string parser
-typedef enum {CALC_NO_ERR=0, CALC_SYNTAX_ERR, CALC_MATH_ERR}calc_error;
+typedef enum {CALC_NO_ERR=0, CALC_SYNTAX_ERR, CALC_MATH_ERR, CALC_OUT_OF_RANGE_ERR}calc_error;
 typedef enum {NONE=0, ADD, SUB, MUL, DIV}calc_operation;
 #define CALC_MAX_NUM_DIGITS 3
 
