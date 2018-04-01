@@ -1,0 +1,1074 @@
+
+ADHAM_CALCULATOR.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000530  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000010  00800060  00000530  000005a4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000005b4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000005e4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000130  00000000  00000000  00000620  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000016c2  00000000  00000000  00000750  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000bad  00000000  00000000  00001e12  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000c0a  00000000  00000000  000029bf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000234  00000000  00000000  000035cc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000066e  00000000  00000000  00003800  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000009c2  00000000  00000000  00003e6e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 000000d0  00000000  00000000  00004830  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e0 e3       	ldi	r30, 0x30	; 48
+  68:	f5 e0       	ldi	r31, 0x05	; 5
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a0 37       	cpi	r26, 0x70	; 112
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 91 02 	call	0x522	; 0x522 <main>
+  7a:	0c 94 96 02 	jmp	0x52c	; 0x52c <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <StartCalculator>:
+#include "LCD.h"
+#include "queue.h"
+#include "calculator.h"
+
+void StartCalculator()
+{
+  82:	cf 93       	push	r28
+  84:	df 93       	push	r29
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	a3 97       	sbiw	r28, 0x23	; 35
+  8c:	0f b6       	in	r0, 0x3f	; 63
+  8e:	f8 94       	cli
+  90:	de bf       	out	0x3e, r29	; 62
+  92:	0f be       	out	0x3f, r0	; 63
+  94:	cd bf       	out	0x3d, r28	; 61
+	vLCDInit(); //Initialize LCD driver
+  96:	0e 94 45 02 	call	0x48a	; 0x48a <vLCDInit>
+	vKeypadInit(); //Initialize Keypad driver
+  9a:	0e 94 96 01 	call	0x32c	; 0x32c <vKeypadInit>
+	
+	char keypad_input=0; //Storage for keypad characters
+	uint8_t index=0; //Current character index in the input buffer
+	queue_t input_buffer; //Input buffer for keypad and LCD as a queue
+	vQueueInit(&input_buffer); //Clear input buffer
+  9e:	ce 01       	movw	r24, r28
+  a0:	01 96       	adiw	r24, 0x01	; 1
+  a2:	0e 94 9a 00 	call	0x134	; 0x134 <vQueueInit>
+	string_parser_output_t *parser_output = NULL; //Pointer to take the return of the string parser as a struct
+	char string_parser_input[CALC_LCD_LENGTH]; //Array to store the input and send it to the string parser
+	uint8_t string_parser_input_index=0; //Index of array
+  a6:	00 e0       	ldi	r16, 0x00	; 0
+  a8:	3e c0       	rjmp	.+124    	; 0x126 <StartCalculator+0xa4>
+	while(1)
+	{
+		while(index<=CALC_LCD_LENGTH)
+		{
+			keypad_input = ucKeypadScan(); //Scan keypad for input
+			if((keypad_input!=NO_VALID_INPUT) && (keypad_input!='C') && (keypad_input!='=')) //if there is a valid input start capturing it in the input buffer
+  aa:	13 34       	cpi	r17, 0x43	; 67
+  ac:	99 f0       	breq	.+38     	; 0xd4 <StartCalculator+0x52>
+  ae:	1d 33       	cpi	r17, 0x3D	; 61
+  b0:	c1 f0       	breq	.+48     	; 0xe2 <StartCalculator+0x60>
+			{
+				if(x8QueueEmpty(&input_buffer) == TRUE)
+  b2:	ce 01       	movw	r24, r28
+  b4:	01 96       	adiw	r24, 0x01	; 1
+  b6:	0e 94 a0 00 	call	0x140	; 0x140 <x8QueueEmpty>
+  ba:	81 30       	cpi	r24, 0x01	; 1
+  bc:	11 f4       	brne	.+4      	; 0xc2 <StartCalculator+0x40>
+				{
+					//If the user inputs something after a result is displayed, return the cursor and clear the display
+					vLCDClearDisplay();
+  be:	0e 94 41 02 	call	0x482	; 0x482 <vLCDClearDisplay>
+				}
+				vQueueInsert(&input_buffer, keypad_input); //Add typed characters to the input buffer
+  c2:	61 2f       	mov	r22, r17
+  c4:	ce 01       	movw	r24, r28
+  c6:	01 96       	adiw	r24, 0x01	; 1
+  c8:	0e 94 a7 00 	call	0x14e	; 0x14e <vQueueInsert>
+				vLCDSendCharacter(keypad_input); //Echo typed characters on the LCD
+  cc:	81 2f       	mov	r24, r17
+  ce:	0e 94 1c 02 	call	0x438	; 0x438 <vLCDSendCharacter>
+  d2:	29 c0       	rjmp	.+82     	; 0x126 <StartCalculator+0xa4>
+			}else if(keypad_input=='C')
+			{
+				//If the user pushes the Clear 'C' key, clear the input buffer, clear the display
+				vLCDClearDisplay();
+  d4:	0e 94 41 02 	call	0x482	; 0x482 <vLCDClearDisplay>
+				vQueueInit(&input_buffer);
+  d8:	ce 01       	movw	r24, r28
+  da:	01 96       	adiw	r24, 0x01	; 1
+  dc:	0e 94 9a 00 	call	0x134	; 0x134 <vQueueInit>
+  e0:	22 c0       	rjmp	.+68     	; 0x126 <StartCalculator+0xa4>
+			}else if(keypad_input=='=')
+			{	//If the user pushes the '=' key and the input buffer isn't empty, start calculating
+ 				if(x8QueueEmpty(&input_buffer)==0)
+  e2:	ce 01       	movw	r24, r28
+  e4:	01 96       	adiw	r24, 0x01	; 1
+  e6:	0e 94 a0 00 	call	0x140	; 0x140 <x8QueueEmpty>
+  ea:	81 11       	cpse	r24, r1
+  ec:	1c c0       	rjmp	.+56     	; 0x126 <StartCalculator+0xa4>
+ 				{
+ 					vLCDGotoXY(0,1); //Go to second line on the LCD to display the result
+  ee:	61 e0       	ldi	r22, 0x01	; 1
+  f0:	0e 94 31 02 	call	0x462	; 0x462 <vLCDGotoXY>
+					 {
+						 vLCDSendCharacter(dataQueuePop(&input_buffer));
+					 }
+					 */
+					 
+					 while(x8QueueEmpty(&input_buffer)==FALSE)
+  f4:	0c c0       	rjmp	.+24     	; 0x10e <StartCalculator+0x8c>
+					 {
+						 string_parser_input[string_parser_input_index] = dataQueuePop(&input_buffer);
+  f6:	ce 01       	movw	r24, r28
+  f8:	01 96       	adiw	r24, 0x01	; 1
+  fa:	0e 94 bc 00 	call	0x178	; 0x178 <dataQueuePop>
+  fe:	e4 e1       	ldi	r30, 0x14	; 20
+ 100:	f0 e0       	ldi	r31, 0x00	; 0
+ 102:	ec 0f       	add	r30, r28
+ 104:	fd 1f       	adc	r31, r29
+ 106:	e0 0f       	add	r30, r16
+ 108:	f1 1d       	adc	r31, r1
+ 10a:	80 83       	st	Z, r24
+						 string_parser_input_index++;
+ 10c:	0f 5f       	subi	r16, 0xFF	; 255
+					 {
+						 vLCDSendCharacter(dataQueuePop(&input_buffer));
+					 }
+					 */
+					 
+					 while(x8QueueEmpty(&input_buffer)==FALSE)
+ 10e:	ce 01       	movw	r24, r28
+ 110:	01 96       	adiw	r24, 0x01	; 1
+ 112:	0e 94 a0 00 	call	0x140	; 0x140 <x8QueueEmpty>
+ 116:	88 23       	and	r24, r24
+ 118:	71 f3       	breq	.-36     	; 0xf6 <StartCalculator+0x74>
+ 					
+					/* For testing, display string parser string on LCD on '='
+					vLCDSendString(string_parser_input); */
+					 
+					//Parse the input data and get the operands, operation, and errors in a struct
+					vStringparserParse(string_parser_input, parser_output);
+ 11a:	60 e0       	ldi	r22, 0x00	; 0
+ 11c:	70 e0       	ldi	r23, 0x00	; 0
+ 11e:	ce 01       	movw	r24, r28
+ 120:	44 96       	adiw	r24, 0x14	; 20
+ 122:	0e 94 db 00 	call	0x1b6	; 0x1b6 <vStringparserParse>
+	
+	while(1)
+	{
+		while(index<=CALC_LCD_LENGTH)
+		{
+			keypad_input = ucKeypadScan(); //Scan keypad for input
+ 126:	0e 94 a7 01 	call	0x34e	; 0x34e <ucKeypadScan>
+ 12a:	18 2f       	mov	r17, r24
+			if((keypad_input!=NO_VALID_INPUT) && (keypad_input!='C') && (keypad_input!='=')) //if there is a valid input start capturing it in the input buffer
+ 12c:	8f 3f       	cpi	r24, 0xFF	; 255
+ 12e:	09 f0       	breq	.+2      	; 0x132 <StartCalculator+0xb0>
+ 130:	bc cf       	rjmp	.-136    	; 0xaa <StartCalculator+0x28>
+ 132:	f9 cf       	rjmp	.-14     	; 0x126 <StartCalculator+0xa4>
+
+00000134 <vQueueInit>:
+}
+
+int8_t x8QueueSize(queue_t *queue)
+{
+	return (queue->itemCount);
+}
+ 134:	fc 01       	movw	r30, r24
+ 136:	10 8a       	std	Z+16, r1	; 0x10
+ 138:	8f ef       	ldi	r24, 0xFF	; 255
+ 13a:	81 8b       	std	Z+17, r24	; 0x11
+ 13c:	12 8a       	std	Z+18, r1	; 0x12
+ 13e:	08 95       	ret
+
+00000140 <x8QueueEmpty>:
+ 140:	21 e0       	ldi	r18, 0x01	; 1
+ 142:	fc 01       	movw	r30, r24
+ 144:	82 89       	ldd	r24, Z+18	; 0x12
+ 146:	81 11       	cpse	r24, r1
+ 148:	20 e0       	ldi	r18, 0x00	; 0
+ 14a:	82 2f       	mov	r24, r18
+ 14c:	08 95       	ret
+
+0000014e <vQueueInsert>:
+
+void vQueueInsert(queue_t *queue, QUEUE_TYPE data)
+{
+ 14e:	fc 01       	movw	r30, r24
+	return (queue->itemCount == 0);
+}
+
+int8_t x8QueueFull(queue_t *queue)
+{
+	return (queue->itemCount == QUEUE_MAX);
+ 150:	82 89       	ldd	r24, Z+18	; 0x12
+}
+
+void vQueueInsert(queue_t *queue, QUEUE_TYPE data)
+{
+
+	if(!x8QueueFull(queue))
+ 152:	80 31       	cpi	r24, 0x10	; 16
+ 154:	81 f0       	breq	.+32     	; 0x176 <vQueueInsert+0x28>
+	{
+		if(queue->rear == QUEUE_MAX-1)
+ 156:	91 89       	ldd	r25, Z+17	; 0x11
+ 158:	9f 30       	cpi	r25, 0x0F	; 15
+ 15a:	11 f4       	brne	.+4      	; 0x160 <vQueueInsert+0x12>
+		{
+			queue->rear = -1;
+ 15c:	9f ef       	ldi	r25, 0xFF	; 255
+ 15e:	91 8b       	std	Z+17, r25	; 0x11
+		}
+		queue->QueueArray[++(queue->rear)] = data;
+ 160:	91 89       	ldd	r25, Z+17	; 0x11
+ 162:	9f 5f       	subi	r25, 0xFF	; 255
+ 164:	91 8b       	std	Z+17, r25	; 0x11
+ 166:	df 01       	movw	r26, r30
+ 168:	a9 0f       	add	r26, r25
+ 16a:	b1 1d       	adc	r27, r1
+ 16c:	97 fd       	sbrc	r25, 7
+ 16e:	ba 95       	dec	r27
+ 170:	6c 93       	st	X, r22
+		(queue->itemCount)++;
+ 172:	8f 5f       	subi	r24, 0xFF	; 255
+ 174:	82 8b       	std	Z+18, r24	; 0x12
+ 176:	08 95       	ret
+
+00000178 <dataQueuePop>:
+	}
+}
+
+QUEUE_TYPE dataQueuePop(queue_t *queue)
+{
+ 178:	fc 01       	movw	r30, r24
+	QUEUE_TYPE data = queue->QueueArray[(queue->front)++];
+ 17a:	80 89       	ldd	r24, Z+16	; 0x10
+ 17c:	91 e0       	ldi	r25, 0x01	; 1
+ 17e:	98 0f       	add	r25, r24
+ 180:	90 8b       	std	Z+16, r25	; 0x10
+ 182:	df 01       	movw	r26, r30
+ 184:	a8 0f       	add	r26, r24
+ 186:	b1 1d       	adc	r27, r1
+ 188:	87 fd       	sbrc	r24, 7
+ 18a:	ba 95       	dec	r27
+ 18c:	8c 91       	ld	r24, X
+	
+	if(queue->front == QUEUE_MAX)
+ 18e:	90 31       	cpi	r25, 0x10	; 16
+ 190:	09 f4       	brne	.+2      	; 0x194 <dataQueuePop+0x1c>
+	{
+		queue->front = 0;
+ 192:	10 8a       	std	Z+16, r1	; 0x10
+	}
+	
+	(queue->itemCount)--;
+ 194:	92 89       	ldd	r25, Z+18	; 0x12
+ 196:	91 50       	subi	r25, 0x01	; 1
+ 198:	92 8b       	std	Z+18, r25	; 0x12
+	return data;
+}
+ 19a:	08 95       	ret
+
+0000019c <isOperator>:
+	}
+}
+
+uint8_t isOperator(char c)
+{
+	return (c=='+' || c=='-' || c=='*'|| c=='/' );
+ 19c:	98 2f       	mov	r25, r24
+ 19e:	9d 7f       	andi	r25, 0xFD	; 253
+ 1a0:	9d 32       	cpi	r25, 0x2D	; 45
+ 1a2:	39 f0       	breq	.+14     	; 0x1b2 <isOperator+0x16>
+ 1a4:	8a 52       	subi	r24, 0x2A	; 42
+ 1a6:	91 e0       	ldi	r25, 0x01	; 1
+ 1a8:	82 30       	cpi	r24, 0x02	; 2
+ 1aa:	08 f0       	brcs	.+2      	; 0x1ae <isOperator+0x12>
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	89 2f       	mov	r24, r25
+ 1b0:	08 95       	ret
+ 1b2:	81 e0       	ldi	r24, 0x01	; 1
+}
+ 1b4:	08 95       	ret
+
+000001b6 <vStringparserParse>:
+#include "queue.h"
+
+uint8_t isOperator(char c);
+
+void vStringparserParse(char *st, string_parser_output_t *output)
+{
+ 1b6:	9f 92       	push	r9
+ 1b8:	af 92       	push	r10
+ 1ba:	bf 92       	push	r11
+ 1bc:	cf 92       	push	r12
+ 1be:	df 92       	push	r13
+ 1c0:	ef 92       	push	r14
+ 1c2:	ff 92       	push	r15
+ 1c4:	0f 93       	push	r16
+ 1c6:	1f 93       	push	r17
+ 1c8:	cf 93       	push	r28
+ 1ca:	df 93       	push	r29
+ 1cc:	cd b7       	in	r28, 0x3d	; 61
+ 1ce:	de b7       	in	r29, 0x3e	; 62
+ 1d0:	e9 97       	sbiw	r28, 0x39	; 57
+ 1d2:	0f b6       	in	r0, 0x3f	; 63
+ 1d4:	f8 94       	cli
+ 1d6:	de bf       	out	0x3e, r29	; 62
+ 1d8:	0f be       	out	0x3f, r0	; 63
+ 1da:	cd bf       	out	0x3d, r28	; 61
+ 1dc:	6c 01       	movw	r12, r24
+ 1de:	7b 01       	movw	r14, r22
+	char temp1[CALC_MAX_NUM_DIGITS];
+	char temp2[CALC_MAX_NUM_DIGITS];
+	uint8_t temp_index=0;
+	uint8_t negative_flag=0;
+	queue_t num1_queue;
+	vQueueInit(&num1_queue);
+ 1e0:	ce 01       	movw	r24, r28
+ 1e2:	01 96       	adiw	r24, 0x01	; 1
+ 1e4:	0e 94 9a 00 	call	0x134	; 0x134 <vQueueInit>
+	queue_t num2_queue;
+	vQueueInit(&num2_queue);
+ 1e8:	ce 01       	movw	r24, r28
+ 1ea:	44 96       	adiw	r24, 0x14	; 20
+ 1ec:	0e 94 9a 00 	call	0x134	; 0x134 <vQueueInit>
+	queue_t op_queue;
+	vQueueInit(&op_queue);
+ 1f0:	ce 01       	movw	r24, r28
+ 1f2:	87 96       	adiw	r24, 0x27	; 39
+ 1f4:	0e 94 9a 00 	call	0x134	; 0x134 <vQueueInit>
+
+	
+	//Initialize
+	output->num1 = 0;
+ 1f8:	f7 01       	movw	r30, r14
+ 1fa:	11 82       	std	Z+1, r1	; 0x01
+ 1fc:	10 82       	st	Z, r1
+	output->num2 = 0;
+ 1fe:	13 82       	std	Z+3, r1	; 0x03
+ 200:	12 82       	std	Z+2, r1	; 0x02
+	output->op = 0;
+ 202:	14 82       	std	Z+4, r1	; 0x04
+	output->err = CALC_NO_ERR;
+ 204:	15 82       	std	Z+5, r1	; 0x05
+
+	//Determine the length of text
+	while(st[length]!= '\0')
+ 206:	f6 01       	movw	r30, r12
+ 208:	30 81       	ld	r19, Z
+ 20a:	33 23       	and	r19, r19
+ 20c:	09 f4       	brne	.+2      	; 0x210 <vStringparserParse+0x5a>
+ 20e:	75 c0       	rjmp	.+234    	; 0x2fa <vStringparserParse+0x144>
+ 210:	00 e0       	ldi	r16, 0x00	; 0
+ 212:	01 c0       	rjmp	.+2      	; 0x216 <vStringparserParse+0x60>
+	{
+		length++;
+ 214:	01 2f       	mov	r16, r17
+ 216:	11 e0       	ldi	r17, 0x01	; 1
+ 218:	10 0f       	add	r17, r16
+	output->num2 = 0;
+	output->op = 0;
+	output->err = CALC_NO_ERR;
+
+	//Determine the length of text
+	while(st[length]!= '\0')
+ 21a:	81 2f       	mov	r24, r17
+ 21c:	90 e0       	ldi	r25, 0x00	; 0
+ 21e:	f6 01       	movw	r30, r12
+ 220:	e8 0f       	add	r30, r24
+ 222:	f9 1f       	adc	r31, r25
+ 224:	20 81       	ld	r18, Z
+ 226:	21 11       	cpse	r18, r1
+ 228:	f5 cf       	rjmp	.-22     	; 0x214 <vStringparserParse+0x5e>
+	{
+		length++;
+	}
+	
+	//Checking for syntax errors..
+	if(st[0]=='*' || st[0]=='/' || isOperator(st[length-1])) //If the text begins with * or / or ends with an operator
+ 22a:	3a 32       	cpi	r19, 0x2A	; 42
+ 22c:	59 f0       	breq	.+22     	; 0x244 <vStringparserParse+0x8e>
+ 22e:	3f 32       	cpi	r19, 0x2F	; 47
+ 230:	49 f0       	breq	.+18     	; 0x244 <vStringparserParse+0x8e>
+ 232:	31 97       	sbiw	r30, 0x01	; 1
+ 234:	80 81       	ld	r24, Z
+ 236:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 23a:	81 11       	cpse	r24, r1
+ 23c:	03 c0       	rjmp	.+6      	; 0x244 <vStringparserParse+0x8e>
+		{
+			output->err = CALC_SYNTAX_ERR; //Return error
+			//break;
+		}else
+		{
+			for(i=0;i<length;i++)
+ 23e:	11 11       	cpse	r17, r1
+ 240:	05 c0       	rjmp	.+10     	; 0x24c <vStringparserParse+0x96>
+ 242:	62 c0       	rjmp	.+196    	; 0x308 <vStringparserParse+0x152>
+	}
+	
+	//Checking for syntax errors..
+	if(st[0]=='*' || st[0]=='/' || isOperator(st[length-1])) //If the text begins with * or / or ends with an operator
+		{
+			output->err = CALC_SYNTAX_ERR; //Return error
+ 244:	81 e0       	ldi	r24, 0x01	; 1
+ 246:	f7 01       	movw	r30, r14
+ 248:	85 83       	std	Z+5, r24	; 0x05
+ 24a:	5e c0       	rjmp	.+188    	; 0x308 <vStringparserParse+0x152>
+ 24c:	56 01       	movw	r10, r12
+ 24e:	10 e0       	ldi	r17, 0x00	; 0
+ 250:	0f 5f       	subi	r16, 0xFF	; 255
+ 252:	1f 4f       	sbci	r17, 0xFF	; 255
+ 254:	0c 0d       	add	r16, r12
+ 256:	1d 1d       	adc	r17, r13
+		{
+			for(i=0;i<length;i++)
+			{
+				if(isOperator(st[i]) && isOperator(st[i+1]) && isOperator(st[i+2])) //If there are 3 consecutive operators
+				{
+					output->err = CALC_SYNTAX_ERR; //Return error
+ 258:	99 24       	eor	r9, r9
+ 25a:	93 94       	inc	r9
+			//break;
+		}else
+		{
+			for(i=0;i<length;i++)
+			{
+				if(isOperator(st[i]) && isOperator(st[i+1]) && isOperator(st[i+2])) //If there are 3 consecutive operators
+ 25c:	f5 01       	movw	r30, r10
+ 25e:	81 91       	ld	r24, Z+
+ 260:	5f 01       	movw	r10, r30
+ 262:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 266:	88 23       	and	r24, r24
+ 268:	71 f0       	breq	.+28     	; 0x286 <vStringparserParse+0xd0>
+ 26a:	f5 01       	movw	r30, r10
+ 26c:	80 81       	ld	r24, Z
+ 26e:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 272:	88 23       	and	r24, r24
+ 274:	41 f0       	breq	.+16     	; 0x286 <vStringparserParse+0xd0>
+ 276:	f5 01       	movw	r30, r10
+ 278:	81 81       	ldd	r24, Z+1	; 0x01
+ 27a:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 27e:	88 23       	and	r24, r24
+ 280:	11 f0       	breq	.+4      	; 0x286 <vStringparserParse+0xd0>
+				{
+					output->err = CALC_SYNTAX_ERR; //Return error
+ 282:	f7 01       	movw	r30, r14
+ 284:	95 82       	std	Z+5, r9	; 0x05
+		{
+			output->err = CALC_SYNTAX_ERR; //Return error
+			//break;
+		}else
+		{
+			for(i=0;i<length;i++)
+ 286:	a0 16       	cp	r10, r16
+ 288:	b1 06       	cpc	r11, r17
+ 28a:	41 f7       	brne	.-48     	; 0x25c <vStringparserParse+0xa6>
+ 28c:	31 c0       	rjmp	.+98     	; 0x2f0 <vStringparserParse+0x13a>
+				}
+			}
+		}
+	
+	//If there are no syntax errors, start parsing
+	if(output->err!=CALC_SYNTAX_ERR)
+ 28e:	00 e0       	ldi	r16, 0x00	; 0
+				}else if(op_count==1) //After operator
+				{
+					vQueueInsert(&num2_queue, st[i]); //store digit in operand 2
+				}else
+				{
+					output->err= CALC_OUT_OF_RANGE_ERR; //Return out of range error
+ 290:	0f 2e       	mov	r0, r31
+ 292:	f3 e0       	ldi	r31, 0x03	; 3
+ 294:	bf 2e       	mov	r11, r31
+ 296:	f0 2d       	mov	r31, r0
+	if(output->err!=CALC_SYNTAX_ERR)
+	{
+		i=0;
+		while(i<length)
+		{
+			if(isdigit(st[i])) //If found digit
+ 298:	f6 01       	movw	r30, r12
+ 29a:	10 81       	ld	r17, Z
+ 29c:	81 2f       	mov	r24, r17
+ 29e:	90 e0       	ldi	r25, 0x00	; 0
+ 2a0:	c0 97       	sbiw	r24, 0x30	; 48
+ 2a2:	0a 97       	sbiw	r24, 0x0a	; 10
+ 2a4:	98 f4       	brcc	.+38     	; 0x2cc <vStringparserParse+0x116>
+			{
+				if(op_count==0) //Before operator
+ 2a6:	01 11       	cpse	r16, r1
+ 2a8:	06 c0       	rjmp	.+12     	; 0x2b6 <vStringparserParse+0x100>
+				{
+					vQueueInsert(&num1_queue, st[i]); //store digit in operand 1
+ 2aa:	61 2f       	mov	r22, r17
+ 2ac:	ce 01       	movw	r24, r28
+ 2ae:	01 96       	adiw	r24, 0x01	; 1
+ 2b0:	0e 94 a7 00 	call	0x14e	; 0x14e <vQueueInsert>
+ 2b4:	f1 cf       	rjmp	.-30     	; 0x298 <vStringparserParse+0xe2>
+				}else if(op_count==1) //After operator
+ 2b6:	01 30       	cpi	r16, 0x01	; 1
+ 2b8:	31 f4       	brne	.+12     	; 0x2c6 <vStringparserParse+0x110>
+				{
+					vQueueInsert(&num2_queue, st[i]); //store digit in operand 2
+ 2ba:	61 2f       	mov	r22, r17
+ 2bc:	ce 01       	movw	r24, r28
+ 2be:	44 96       	adiw	r24, 0x14	; 20
+ 2c0:	0e 94 a7 00 	call	0x14e	; 0x14e <vQueueInsert>
+ 2c4:	e9 cf       	rjmp	.-46     	; 0x298 <vStringparserParse+0xe2>
+				}else
+				{
+					output->err= CALC_OUT_OF_RANGE_ERR; //Return out of range error
+ 2c6:	f7 01       	movw	r30, r14
+ 2c8:	b5 82       	std	Z+5, r11	; 0x05
+ 2ca:	e6 cf       	rjmp	.-52     	; 0x298 <vStringparserParse+0xe2>
+				}
+			}else if(isOperator(st[i])) //If found operator
+ 2cc:	81 2f       	mov	r24, r17
+ 2ce:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 2d2:	88 23       	and	r24, r24
+ 2d4:	09 f3       	breq	.-62     	; 0x298 <vStringparserParse+0xe2>
+			{
+				if(isdigit(st[i+1])) //If found digit after operator
+ 2d6:	f6 01       	movw	r30, r12
+ 2d8:	81 81       	ldd	r24, Z+1	; 0x01
+ 2da:	90 e0       	ldi	r25, 0x00	; 0
+ 2dc:	c0 97       	sbiw	r24, 0x30	; 48
+ 2de:	0a 97       	sbiw	r24, 0x0a	; 10
+ 2e0:	d8 f6       	brcc	.-74     	; 0x298 <vStringparserParse+0xe2>
+				{
+					vQueueInsert(&op_queue, st[i]); //store operator in queue
+ 2e2:	61 2f       	mov	r22, r17
+ 2e4:	ce 01       	movw	r24, r28
+ 2e6:	87 96       	adiw	r24, 0x27	; 39
+ 2e8:	0e 94 a7 00 	call	0x14e	; 0x14e <vQueueInsert>
+					op_count++;
+ 2ec:	0f 5f       	subi	r16, 0xFF	; 255
+ 2ee:	d4 cf       	rjmp	.-88     	; 0x298 <vStringparserParse+0xe2>
+				}
+			}
+		}
+	
+	//If there are no syntax errors, start parsing
+	if(output->err!=CALC_SYNTAX_ERR)
+ 2f0:	f7 01       	movw	r30, r14
+ 2f2:	85 81       	ldd	r24, Z+5	; 0x05
+ 2f4:	81 30       	cpi	r24, 0x01	; 1
+ 2f6:	59 f6       	brne	.-106    	; 0x28e <vStringparserParse+0xd8>
+ 2f8:	07 c0       	rjmp	.+14     	; 0x308 <vStringparserParse+0x152>
+	{
+		length++;
+	}
+	
+	//Checking for syntax errors..
+	if(st[0]=='*' || st[0]=='/' || isOperator(st[length-1])) //If the text begins with * or / or ends with an operator
+ 2fa:	f6 01       	movw	r30, r12
+ 2fc:	31 97       	sbiw	r30, 0x01	; 1
+ 2fe:	80 81       	ld	r24, Z
+ 300:	0e 94 ce 00 	call	0x19c	; 0x19c <isOperator>
+ 304:	81 11       	cpse	r24, r1
+ 306:	9e cf       	rjmp	.-196    	; 0x244 <vStringparserParse+0x8e>
+					
+				}
+			}
+		}
+	}
+}
+ 308:	e9 96       	adiw	r28, 0x39	; 57
+ 30a:	0f b6       	in	r0, 0x3f	; 63
+ 30c:	f8 94       	cli
+ 30e:	de bf       	out	0x3e, r29	; 62
+ 310:	0f be       	out	0x3f, r0	; 63
+ 312:	cd bf       	out	0x3d, r28	; 61
+ 314:	df 91       	pop	r29
+ 316:	cf 91       	pop	r28
+ 318:	1f 91       	pop	r17
+ 31a:	0f 91       	pop	r16
+ 31c:	ff 90       	pop	r15
+ 31e:	ef 90       	pop	r14
+ 320:	df 90       	pop	r13
+ 322:	cf 90       	pop	r12
+ 324:	bf 90       	pop	r11
+ 326:	af 90       	pop	r10
+ 328:	9f 90       	pop	r9
+ 32a:	08 95       	ret
+
+0000032c <vKeypadInit>:
+	//input 0
+	//output 0
+	
+	//set rows as o/p
+	
+	ROW0_DIR |= (1U<<ROW0);
+ 32c:	a0 9a       	sbi	0x14, 0	; 20
+	ROW1_DIR |= (1U<<ROW1);
+ 32e:	a1 9a       	sbi	0x14, 1	; 20
+	ROW2_DIR |= (1U<<ROW2);
+ 330:	a2 9a       	sbi	0x14, 2	; 20
+	ROW3_DIR |= (1U<<ROW3);
+ 332:	a3 9a       	sbi	0x14, 3	; 20
+	
+	//set lines as i/p
+	LINE0_DIR &= ~(1U<<LINE0);
+ 334:	a4 98       	cbi	0x14, 4	; 20
+	LINE1_DIR &= ~(1U<<LINE1);
+ 336:	a5 98       	cbi	0x14, 5	; 20
+	LINE2_DIR &= ~(1U<<LINE2);
+ 338:	a6 98       	cbi	0x14, 6	; 20
+	LINE3_DIR &= ~(1U<<LINE3);
+ 33a:	a7 98       	cbi	0x14, 7	; 20
+	
+	//set internal pullups on i/p
+	LINE0_PULLUP |= (1U<<LINE0);
+ 33c:	ac 9a       	sbi	0x15, 4	; 21
+	LINE1_PULLUP |= (1U<<LINE1);
+ 33e:	ad 9a       	sbi	0x15, 5	; 21
+	LINE2_PULLUP |= (1U<<LINE2);
+ 340:	ae 9a       	sbi	0x15, 6	; 21
+	LINE3_PULLUP |= (1U<<LINE3);
+ 342:	af 9a       	sbi	0x15, 7	; 21
+	
+	//reset rows to no output 1
+	ROW0_DATAOUT |= (NO_OUTPUT_STATE<<ROW0);
+ 344:	a8 9a       	sbi	0x15, 0	; 21
+	ROW1_DATAOUT |= (NO_OUTPUT_STATE<<ROW1);
+ 346:	a9 9a       	sbi	0x15, 1	; 21
+	ROW2_DATAOUT |= (NO_OUTPUT_STATE<<ROW2);
+ 348:	aa 9a       	sbi	0x15, 2	; 21
+	ROW3_DATAOUT |= (NO_OUTPUT_STATE<<ROW3);
+ 34a:	ab 9a       	sbi	0x15, 3	; 21
+ 34c:	08 95       	ret
+
+0000034e <ucKeypadScan>:
+	uint8_t row=0;
+	uint8_t line=NO_VALID_INPUT;
+	unsigned char result= NO_VALID_INPUT;
+	
+	//loop on rows
+	for(row=0;row<4;row++)
+ 34e:	e0 e0       	ldi	r30, 0x00	; 0
+	{
+		//RESET PINS
+		ROW0_DATAOUT |= (1U<<ROW0);
+ 350:	a8 9a       	sbi	0x15, 0	; 21
+		ROW1_DATAOUT |= (1U<<ROW1);
+ 352:	a9 9a       	sbi	0x15, 1	; 21
+		ROW1_DATAOUT |= (1U<<ROW2);
+ 354:	aa 9a       	sbi	0x15, 2	; 21
+		ROW1_DATAOUT |= (1U<<ROW3);
+ 356:	ab 9a       	sbi	0x15, 3	; 21
+		
+		//set the numbered row to output state 0
+		switch(row)
+ 358:	e1 30       	cpi	r30, 0x01	; 1
+ 35a:	41 f0       	breq	.+16     	; 0x36c <ucKeypadScan+0x1e>
+ 35c:	28 f0       	brcs	.+10     	; 0x368 <ucKeypadScan+0x1a>
+ 35e:	e2 30       	cpi	r30, 0x02	; 2
+ 360:	39 f0       	breq	.+14     	; 0x370 <ucKeypadScan+0x22>
+ 362:	e3 30       	cpi	r30, 0x03	; 3
+ 364:	39 f0       	breq	.+14     	; 0x374 <ucKeypadScan+0x26>
+ 366:	07 c0       	rjmp	.+14     	; 0x376 <ucKeypadScan+0x28>
+		{
+			case 0:ROW0_DATAOUT &= ~(OUTPUT_STATE<<ROW0);break;
+ 368:	a8 98       	cbi	0x15, 0	; 21
+ 36a:	05 c0       	rjmp	.+10     	; 0x376 <ucKeypadScan+0x28>
+			case 1:ROW1_DATAOUT &= ~(OUTPUT_STATE<<ROW1);break;
+ 36c:	a9 98       	cbi	0x15, 1	; 21
+ 36e:	03 c0       	rjmp	.+6      	; 0x376 <ucKeypadScan+0x28>
+			case 2:ROW2_DATAOUT &= ~(OUTPUT_STATE<<ROW2);break;
+ 370:	aa 98       	cbi	0x15, 2	; 21
+ 372:	01 c0       	rjmp	.+2      	; 0x376 <ucKeypadScan+0x28>
+			case 3:ROW3_DATAOUT &= ~(OUTPUT_STATE<<ROW3);break;
+ 374:	ab 98       	cbi	0x15, 3	; 21
+			default:break;
+		}
+		//check inputs
+		if((LINE0_DATAIN&(1U<<LINE0)) == INPUT_STATE)	{line = 0;}
+ 376:	9c 9b       	sbis	0x13, 4	; 19
+ 378:	1a c0       	rjmp	.+52     	; 0x3ae <ucKeypadScan+0x60>
+		else if((LINE1_DATAIN&(1U<<LINE1)) == INPUT_STATE)	{line = 1;}
+ 37a:	9d 9b       	sbis	0x13, 5	; 19
+ 37c:	1a c0       	rjmp	.+52     	; 0x3b2 <ucKeypadScan+0x64>
+		else if((LINE2_DATAIN&(1U<<LINE2)) == INPUT_STATE)	{line = 2;}
+ 37e:	9e 9b       	sbis	0x13, 6	; 19
+ 380:	1a c0       	rjmp	.+52     	; 0x3b6 <ucKeypadScan+0x68>
+		else if((LINE3_DATAIN&(1U<<LINE3)) == INPUT_STATE)	{line = 3;}
+ 382:	9f 9b       	sbis	0x13, 7	; 19
+ 384:	1a c0       	rjmp	.+52     	; 0x3ba <ucKeypadScan+0x6c>
+ 386:	1b c0       	rjmp	.+54     	; 0x3be <ucKeypadScan+0x70>
+		
+			//if there is a valid input
+			if(line != NO_VALID_INPUT)
+			{
+				//wait until input is gone
+				while(INPUT_IS_STILL_VALID == INPUT_STATE /*there is valid input*/);
+ 388:	9c 9b       	sbis	0x13, 4	; 19
+ 38a:	fe cf       	rjmp	.-4      	; 0x388 <ucKeypadScan+0x3a>
+ 38c:	9d 9b       	sbis	0x13, 5	; 19
+ 38e:	fc cf       	rjmp	.-8      	; 0x388 <ucKeypadScan+0x3a>
+ 390:	9e 9b       	sbis	0x13, 6	; 19
+ 392:	fa cf       	rjmp	.-12     	; 0x388 <ucKeypadScan+0x3a>
+ 394:	9f 9b       	sbis	0x13, 7	; 19
+ 396:	f8 cf       	rjmp	.-16     	; 0x388 <ucKeypadScan+0x3a>
+				
+				//return mapped key to this input
+				result = g_Keypad_Mapping[row][line];
+ 398:	f0 e0       	ldi	r31, 0x00	; 0
+ 39a:	ee 0f       	add	r30, r30
+ 39c:	ff 1f       	adc	r31, r31
+ 39e:	ee 0f       	add	r30, r30
+ 3a0:	ff 1f       	adc	r31, r31
+ 3a2:	e0 5a       	subi	r30, 0xA0	; 160
+ 3a4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 3a6:	e8 0f       	add	r30, r24
+ 3a8:	f1 1d       	adc	r31, r1
+ 3aa:	80 81       	ld	r24, Z
+				break;
+ 3ac:	08 95       	ret
+			case 2:ROW2_DATAOUT &= ~(OUTPUT_STATE<<ROW2);break;
+			case 3:ROW3_DATAOUT &= ~(OUTPUT_STATE<<ROW3);break;
+			default:break;
+		}
+		//check inputs
+		if((LINE0_DATAIN&(1U<<LINE0)) == INPUT_STATE)	{line = 0;}
+ 3ae:	80 e0       	ldi	r24, 0x00	; 0
+ 3b0:	eb cf       	rjmp	.-42     	; 0x388 <ucKeypadScan+0x3a>
+		else if((LINE1_DATAIN&(1U<<LINE1)) == INPUT_STATE)	{line = 1;}
+ 3b2:	81 e0       	ldi	r24, 0x01	; 1
+ 3b4:	e9 cf       	rjmp	.-46     	; 0x388 <ucKeypadScan+0x3a>
+		else if((LINE2_DATAIN&(1U<<LINE2)) == INPUT_STATE)	{line = 2;}
+ 3b6:	82 e0       	ldi	r24, 0x02	; 2
+ 3b8:	e7 cf       	rjmp	.-50     	; 0x388 <ucKeypadScan+0x3a>
+		else if((LINE3_DATAIN&(1U<<LINE3)) == INPUT_STATE)	{line = 3;}
+ 3ba:	83 e0       	ldi	r24, 0x03	; 3
+ 3bc:	e5 cf       	rjmp	.-54     	; 0x388 <ucKeypadScan+0x3a>
+	uint8_t row=0;
+	uint8_t line=NO_VALID_INPUT;
+	unsigned char result= NO_VALID_INPUT;
+	
+	//loop on rows
+	for(row=0;row<4;row++)
+ 3be:	ef 5f       	subi	r30, 0xFF	; 255
+ 3c0:	e4 30       	cpi	r30, 0x04	; 4
+ 3c2:	31 f6       	brne	.-116    	; 0x350 <ucKeypadScan+0x2>
+	*Callee: DIO
+	*/
+		
+	uint8_t row=0;
+	uint8_t line=NO_VALID_INPUT;
+	unsigned char result= NO_VALID_INPUT;
+ 3c4:	8f ef       	ldi	r24, 0xFF	; 255
+				result = g_Keypad_Mapping[row][line];
+				break;
+			}
+	}
+		return result;
+ 3c6:	08 95       	ret
+
+000003c8 <vLCDSend4bit>:
+		{
+			vLCDGotoXY(0,1);
+		}
+		vLCDSendCharacter(ptr[i]);
+	}
+}
+ 3c8:	80 ff       	sbrs	r24, 0
+ 3ca:	02 c0       	rjmp	.+4      	; 0x3d0 <vLCDSend4bit+0x8>
+ 3cc:	dc 9a       	sbi	0x1b, 4	; 27
+ 3ce:	01 c0       	rjmp	.+2      	; 0x3d2 <vLCDSend4bit+0xa>
+ 3d0:	dc 98       	cbi	0x1b, 4	; 27
+ 3d2:	81 ff       	sbrs	r24, 1
+ 3d4:	02 c0       	rjmp	.+4      	; 0x3da <vLCDSend4bit+0x12>
+ 3d6:	dd 9a       	sbi	0x1b, 5	; 27
+ 3d8:	01 c0       	rjmp	.+2      	; 0x3dc <vLCDSend4bit+0x14>
+ 3da:	dd 98       	cbi	0x1b, 5	; 27
+ 3dc:	82 ff       	sbrs	r24, 2
+ 3de:	02 c0       	rjmp	.+4      	; 0x3e4 <vLCDSend4bit+0x1c>
+ 3e0:	de 9a       	sbi	0x1b, 6	; 27
+ 3e2:	01 c0       	rjmp	.+2      	; 0x3e6 <vLCDSend4bit+0x1e>
+ 3e4:	de 98       	cbi	0x1b, 6	; 27
+ 3e6:	83 ff       	sbrs	r24, 3
+ 3e8:	02 c0       	rjmp	.+4      	; 0x3ee <vLCDSend4bit+0x26>
+ 3ea:	df 9a       	sbi	0x1b, 7	; 27
+ 3ec:	01 c0       	rjmp	.+2      	; 0x3f0 <vLCDSend4bit+0x28>
+ 3ee:	df 98       	cbi	0x1b, 7	; 27
+ 3f0:	c3 9a       	sbi	0x18, 3	; 24
+ 3f2:	8f e6       	ldi	r24, 0x6F	; 111
+ 3f4:	97 e1       	ldi	r25, 0x17	; 23
+ 3f6:	01 97       	sbiw	r24, 0x01	; 1
+ 3f8:	f1 f7       	brne	.-4      	; 0x3f6 <vLCDSend4bit+0x2e>
+ 3fa:	00 c0       	rjmp	.+0      	; 0x3fc <vLCDSend4bit+0x34>
+ 3fc:	00 00       	nop
+ 3fe:	c3 98       	cbi	0x18, 3	; 24
+ 400:	08 95       	ret
+
+00000402 <vLCDSendCommand>:
+ 402:	cf 93       	push	r28
+ 404:	c8 2f       	mov	r28, r24
+ 406:	c2 98       	cbi	0x18, 2	; 24
+ 408:	c1 98       	cbi	0x18, 1	; 24
+ 40a:	82 95       	swap	r24
+ 40c:	8f 70       	andi	r24, 0x0F	; 15
+ 40e:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 412:	8b e2       	ldi	r24, 0x2B	; 43
+ 414:	91 e0       	ldi	r25, 0x01	; 1
+ 416:	01 97       	sbiw	r24, 0x01	; 1
+ 418:	f1 f7       	brne	.-4      	; 0x416 <vLCDSendCommand+0x14>
+ 41a:	00 c0       	rjmp	.+0      	; 0x41c <vLCDSendCommand+0x1a>
+ 41c:	00 00       	nop
+ 41e:	8c 2f       	mov	r24, r28
+ 420:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 424:	c3 98       	cbi	0x18, 3	; 24
+ 426:	8f e6       	ldi	r24, 0x6F	; 111
+ 428:	97 e1       	ldi	r25, 0x17	; 23
+ 42a:	01 97       	sbiw	r24, 0x01	; 1
+ 42c:	f1 f7       	brne	.-4      	; 0x42a <vLCDSendCommand+0x28>
+ 42e:	00 c0       	rjmp	.+0      	; 0x430 <vLCDSendCommand+0x2e>
+ 430:	00 00       	nop
+ 432:	c3 9a       	sbi	0x18, 3	; 24
+ 434:	cf 91       	pop	r28
+ 436:	08 95       	ret
+
+00000438 <vLCDSendCharacter>:
+ 438:	cf 93       	push	r28
+ 43a:	c8 2f       	mov	r28, r24
+ 43c:	c2 98       	cbi	0x18, 2	; 24
+ 43e:	c1 9a       	sbi	0x18, 1	; 24
+ 440:	82 95       	swap	r24
+ 442:	8f 70       	andi	r24, 0x0F	; 15
+ 444:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 448:	8c 2f       	mov	r24, r28
+ 44a:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 44e:	c3 98       	cbi	0x18, 3	; 24
+ 450:	8f e6       	ldi	r24, 0x6F	; 111
+ 452:	97 e1       	ldi	r25, 0x17	; 23
+ 454:	01 97       	sbiw	r24, 0x01	; 1
+ 456:	f1 f7       	brne	.-4      	; 0x454 <vLCDSendCharacter+0x1c>
+ 458:	00 c0       	rjmp	.+0      	; 0x45a <vLCDSendCharacter+0x22>
+ 45a:	00 00       	nop
+ 45c:	c3 9a       	sbi	0x18, 3	; 24
+ 45e:	cf 91       	pop	r28
+ 460:	08 95       	ret
+
+00000462 <vLCDGotoXY>:
+void vLCDGotoXY(uint8_t x,uint8_t y)
+{
+	if(0 == y)
+ 462:	61 11       	cpse	r22, r1
+ 464:	06 c0       	rjmp	.+12     	; 0x472 <vLCDGotoXY+0x10>
+	{
+		if (x>=0 && x <=15)
+ 466:	80 31       	cpi	r24, 0x10	; 16
+ 468:	58 f4       	brcc	.+22     	; 0x480 <vLCDGotoXY+0x1e>
+		{
+			vLCDSendCommand(0x80 + x);
+ 46a:	80 58       	subi	r24, 0x80	; 128
+ 46c:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 470:	08 95       	ret
+		}
+	}
+	else if (1U == y)
+ 472:	61 30       	cpi	r22, 0x01	; 1
+ 474:	29 f4       	brne	.+10     	; 0x480 <vLCDGotoXY+0x1e>
+	{
+		if (x>=0 && x <=15)
+ 476:	80 31       	cpi	r24, 0x10	; 16
+ 478:	18 f4       	brcc	.+6      	; 0x480 <vLCDGotoXY+0x1e>
+		{
+			vLCDSendCommand(0xC0 + x);
+ 47a:	80 54       	subi	r24, 0x40	; 64
+ 47c:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 480:	08 95       	ret
+
+00000482 <vLCDClearDisplay>:
+		}
+	}
+}
+void vLCDClearDisplay(void)
+{
+	vLCDSendCommand(0x01); //Clear Display
+ 482:	81 e0       	ldi	r24, 0x01	; 1
+ 484:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 488:	08 95       	ret
+
+0000048a <vLCDInit>:
+
+void vLCDInit(void)
+{
+
+	//Initialize DIO by settings pin directions to output
+	LCD_RS_DDR |= (1<<LCD_RS);
+ 48a:	b9 9a       	sbi	0x17, 1	; 23
+	LCD_RW_DDR |= (1<<LCD_RW);
+ 48c:	ba 9a       	sbi	0x17, 2	; 23
+	LCD_E_DDR |= (1<<LCD_E);
+ 48e:	bb 9a       	sbi	0x17, 3	; 23
+	LCD_D4_DDR |= (1<<LCD_D4);
+ 490:	d4 9a       	sbi	0x1a, 4	; 26
+	LCD_D5_DDR |= (1<<LCD_D5);
+ 492:	d5 9a       	sbi	0x1a, 5	; 26
+	LCD_D6_DDR |= (1<<LCD_D6);
+ 494:	d6 9a       	sbi	0x1a, 6	; 26
+	LCD_D7_DDR |= (1<<LCD_D7);
+ 496:	d7 9a       	sbi	0x1a, 7	; 26
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 498:	2f e7       	ldi	r18, 0x7F	; 127
+ 49a:	89 ea       	ldi	r24, 0xA9	; 169
+ 49c:	93 e0       	ldi	r25, 0x03	; 3
+ 49e:	21 50       	subi	r18, 0x01	; 1
+ 4a0:	80 40       	sbci	r24, 0x00	; 0
+ 4a2:	90 40       	sbci	r25, 0x00	; 0
+ 4a4:	e1 f7       	brne	.-8      	; 0x49e <vLCDInit+0x14>
+ 4a6:	00 c0       	rjmp	.+0      	; 0x4a8 <vLCDInit+0x1e>
+ 4a8:	00 00       	nop
+
+	
+	_delay_ms(100); //LCD power on delay
+	
+	//Resetting LCD Controller
+	vLCDSend4bit(0x03);
+ 4aa:	83 e0       	ldi	r24, 0x03	; 3
+ 4ac:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 4b0:	8f e2       	ldi	r24, 0x2F	; 47
+ 4b2:	95 e7       	ldi	r25, 0x75	; 117
+ 4b4:	01 97       	sbiw	r24, 0x01	; 1
+ 4b6:	f1 f7       	brne	.-4      	; 0x4b4 <vLCDInit+0x2a>
+ 4b8:	00 c0       	rjmp	.+0      	; 0x4ba <vLCDInit+0x30>
+ 4ba:	00 00       	nop
+	_delay_ms(10);
+	vLCDSend4bit(0x03);
+ 4bc:	83 e0       	ldi	r24, 0x03	; 3
+ 4be:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+ 4c2:	87 eb       	ldi	r24, 0xB7	; 183
+ 4c4:	9b e0       	ldi	r25, 0x0B	; 11
+ 4c6:	01 97       	sbiw	r24, 0x01	; 1
+ 4c8:	f1 f7       	brne	.-4      	; 0x4c6 <vLCDInit+0x3c>
+ 4ca:	00 c0       	rjmp	.+0      	; 0x4cc <vLCDInit+0x42>
+ 4cc:	00 00       	nop
+	_delay_ms(1);
+	vLCDSend4bit(0x03);
+ 4ce:	83 e0       	ldi	r24, 0x03	; 3
+ 4d0:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+	vLCDSend4bit(0x02);
+ 4d4:	82 e0       	ldi	r24, 0x02	; 2
+ 4d6:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <vLCDSend4bit>
+	
+	vLCDSendCommand(0x28); //Function Set: 4bit mode / 2 lines / normal font
+ 4da:	88 e2       	ldi	r24, 0x28	; 40
+ 4dc:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 4e0:	87 eb       	ldi	r24, 0xB7	; 183
+ 4e2:	9b e0       	ldi	r25, 0x0B	; 11
+ 4e4:	01 97       	sbiw	r24, 0x01	; 1
+ 4e6:	f1 f7       	brne	.-4      	; 0x4e4 <vLCDInit+0x5a>
+ 4e8:	00 c0       	rjmp	.+0      	; 0x4ea <vLCDInit+0x60>
+ 4ea:	00 00       	nop
+	_delay_ms(1);
+	vLCDSendCommand(0x0F); //Display on / cursor on / blink on
+ 4ec:	8f e0       	ldi	r24, 0x0F	; 15
+ 4ee:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 4f2:	87 eb       	ldi	r24, 0xB7	; 183
+ 4f4:	9b e0       	ldi	r25, 0x0B	; 11
+ 4f6:	01 97       	sbiw	r24, 0x01	; 1
+ 4f8:	f1 f7       	brne	.-4      	; 0x4f6 <vLCDInit+0x6c>
+ 4fa:	00 c0       	rjmp	.+0      	; 0x4fc <vLCDInit+0x72>
+ 4fc:	00 00       	nop
+	_delay_ms(1);
+	vLCDClearDisplay(); //Clear the display
+ 4fe:	0e 94 41 02 	call	0x482	; 0x482 <vLCDClearDisplay>
+ 502:	8f e6       	ldi	r24, 0x6F	; 111
+ 504:	97 e1       	ldi	r25, 0x17	; 23
+ 506:	01 97       	sbiw	r24, 0x01	; 1
+ 508:	f1 f7       	brne	.-4      	; 0x506 <vLCDInit+0x7c>
+ 50a:	00 c0       	rjmp	.+0      	; 0x50c <vLCDInit+0x82>
+ 50c:	00 00       	nop
+	_delay_ms(2);
+	vLCDSendCommand(0x06); //Entry mode: LTR / no shift
+ 50e:	86 e0       	ldi	r24, 0x06	; 6
+ 510:	0e 94 01 02 	call	0x402	; 0x402 <vLCDSendCommand>
+ 514:	8f e6       	ldi	r24, 0x6F	; 111
+ 516:	97 e1       	ldi	r25, 0x17	; 23
+ 518:	01 97       	sbiw	r24, 0x01	; 1
+ 51a:	f1 f7       	brne	.-4      	; 0x518 <vLCDInit+0x8e>
+ 51c:	00 c0       	rjmp	.+0      	; 0x51e <vLCDInit+0x94>
+ 51e:	00 00       	nop
+ 520:	08 95       	ret
+
+00000522 <main>:
+ */ 
+#include "Calculator/calculator.h"
+
+int main()
+{
+	StartCalculator();
+ 522:	0e 94 41 00 	call	0x82	; 0x82 <StartCalculator>
+ 526:	80 e0       	ldi	r24, 0x00	; 0
+ 528:	90 e0       	ldi	r25, 0x00	; 0
+ 52a:	08 95       	ret
+
+0000052c <_exit>:
+ 52c:	f8 94       	cli
+
+0000052e <__stop_program>:
+ 52e:	ff cf       	rjmp	.-2      	; 0x52e <__stop_program>

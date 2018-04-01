@@ -1,0 +1,70 @@
+/*
+ * 00_drivers_test.txt
+ *
+ * Created: 28/3/2018 1:53:51 PM
+ *  Author: adham
+ */ 
+
+ -----------------------------------------------------KEYPAD WITH BCD 7-SEG------------------------------------------------------
+#include <avr/io.h>
+#include "keypad.h"
+
+int main(void)
+{
+	unsigned char key = NO_VALID_INPUT;
+	vKeypadInit();
+	DDRA = 0xFF;
+
+	while(1)
+	{
+		key = ucKeypadScan();
+		if(key!=NO_VALID_INPUT)
+		{
+			PORTA = key-48;
+		}
+	}
+}
+
+ -----------------------------------------------------LCD------------------------------------------------------
+#include <avr/io.h>
+#include "LCD.h"
+#define F_CPU 12000000UL
+#include <util/delay.h>
+
+int main()
+{
+	vLCDInit();
+	uint8_t name[] = "0123456789ABCDE";
+	vLCDSendString(name);
+	_delay_ms(500);
+	vLCDGotoXY(5,0);
+	vLCDSendCharacter('#');
+	while(1)
+	{
+		
+	}
+}
+
+
+ -----------------------------------------------------keypad with lcd------------------------------------------------------
+#include "keypad.h"
+#include "LCD.h"
+#define F_CPU 12000000UL
+#include <util/delay.h>
+
+int main()
+{
+	unsigned char toto = 0;
+	vLCDInit();
+	_delay_ms(100);
+	vKeypadInit();
+	
+	while(1)
+	{
+		toto = ucKeypadScan();
+		if(toto!=NO_VALID_INPUT)
+		{
+			vLCDSendCharacter(toto);
+		}
+	}
+}
