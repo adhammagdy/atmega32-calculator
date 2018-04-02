@@ -24,11 +24,11 @@ void vStringparserParse(char *st, string_parser_output_t *output)
 	uint8_t temp_index=0;
 	uint8_t negative_flag=0;
 	queue_t num1_queue;
-	vQueueInit(&num1_queue);
+	
 	queue_t num2_queue;
-	vQueueInit(&num2_queue);
+	
 	queue_t op_queue;
-	vQueueInit(&op_queue);
+	
 
 	
 	//Initialize
@@ -63,6 +63,9 @@ void vStringparserParse(char *st, string_parser_output_t *output)
 	if(output->err!=CALC_SYNTAX_ERR)
 	{
 		i=0;
+		vQueueInit(&num1_queue);
+		vQueueInit(&num2_queue);
+		vQueueInit(&op_queue);
 		while(i<length)
 		{
 			if(isdigit(st[i])) //If found digit
@@ -83,8 +86,9 @@ void vStringparserParse(char *st, string_parser_output_t *output)
 				{
 					vQueueInsert(&op_queue, st[i]); //store operator in queue
 					op_count++;
-				} else //if found more operators
+				} else //if found two consecutive operators
 				{
+					//test
 					
 				}
 			}
